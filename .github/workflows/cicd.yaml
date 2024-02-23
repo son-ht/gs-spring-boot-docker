@@ -20,7 +20,7 @@ jobs:
           run: ./complete/gradlew build
 
         - name: docker login
-          users: docker/login-action@v3
+          uses: docker/login-action@v3
           with:
             username: 'htsondk251'    #use ${{ secrets.DOCKERHUB_USERNAME }}
             password: 'maibeo140988'  #use ${{ secrets.DOCKERHUB_TOKEN }}
