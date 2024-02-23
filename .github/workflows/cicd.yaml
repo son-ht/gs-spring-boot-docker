@@ -1,0 +1,38 @@
+name: first workflow
+on:
+  push:
+    branch:
+      - test-cicd
+jobs:
+    demo-spring-cicd:
+      runs-on: ubuntu-latest
+      steps:
+        - name: get code
+          uses: actions/checkout@v4
+
+        - name: install java
+          uses: actions/setup-java@v4
+          with:
+            distribution: 'corretto'
+            java-version: '17'
+
+        - name: build
+          run: ./complete/gradlew build
+
+        - name: docker login
+          users: docker/login-action@v3
+          with:
+            username: 'htsondk251'    #use ${{ secrets.DOCKERHUB_USERNAME }}
+            password: 'maibeo140988'  #use ${{ secrets.DOCKERHUB_TOKEN }}
+
+        - name: Setup Docker Buildx
+          uses: docker/setup-buildx-action@v3
+          id: buildx
+
+        - name: build docker image & push to docker hub
+          uses: docker/build-push-action@v5
+          with:
+            context: ./complete/
+            file: ./complete/dev.Dockerfile
+            push: true
+            tags: htsondk251/tre-backend:latest   #${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
