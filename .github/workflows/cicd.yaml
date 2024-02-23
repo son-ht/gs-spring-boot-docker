@@ -2,7 +2,7 @@ name: first workflow
 on:
   push:
     branch:
-      - test-cicd
+      - 'test-cicd'
 jobs:
     demo-spring-cicd:
       runs-on: ubuntu-latest
